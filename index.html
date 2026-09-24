@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Detector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./modules/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ─────────── Colonne gauche ─────────── -->
+  <aside class="left">
+    <div>
+      <div class="brand">◈ AI Detector</div>
+      <div class="tagline">Analyse, humanisation et mise en forme de texte</div>
+    </div>
+    <hr>
+
+    <label class="section-label" for="input">Texte</label>
+    <textarea id="input" placeholder="Collez ou saisissez le texte ici…" spellcheck="false"></textarea>
+    <div class="counter" id="counter">0 mot</div>
+
+    <input type="file" id="file" accept=".txt,.md,.docx" hidden>
+    <button class="btn" id="btn-import" type="button">Importer un fichier (.txt, .md, .docx)</button>
+    <button class="btn primary" id="btn-analyze" type="button">Analyser</button>
+
+    <div class="row">
+      <label for="mode">Mode</label>
+      <select id="mode"></select>
+    </div>
+    <button class="btn secondary" id="btn-humanize" type="button">Humaniser le texte</button>
+
+    <hr>
+    <div class="section-label">Reformater</div>
+    <div class="row">
+      <label for="style">Style</label>
+      <select id="style"></select>
+    </div>
+    <button class="btn" id="btn-refile" type="button">Reformater le texte</button>
+
+    <hr>
+    <div class="pair">
+      <button class="btn ghost" id="btn-undo" type="button" disabled>Annuler</button>
+      <button class="btn ghost" id="btn-copy" type="button">Copier le texte</button>
+      <button class="btn ghost" id="btn-export" type="button" disabled>Exporter JSON</button>
+      <button class="btn ghost" id="btn-reset" type="button">Réinitialiser</button>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <div class="local-note">Tout le traitement se fait dans votre navigateur. Aucun texte n'est envoyé.</div>
+  </aside>
+
+  <!-- ─────────── Colonne droite ─────────── -->
+  <main class="right">
+    <section class="card top" aria-label="Résultat global">
+      <div class="gauge">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="track" cx="100" cy="100" r="80" fill="none" stroke-width="14"/>
+          <circle class="arc" id="arc" cx="100" cy="100" r="80" fill="none" stroke-width="14"
+                  stroke-linecap="round" stroke="var(--muted)"
+                  stroke-dasharray="502.65" stroke-dashoffset="502.65"/>
+        </svg>
+        <div class="gauge-center">
+          <div class="gauge-num" id="g-num" style="color:var(--muted)">0</div>
+          <div class="gauge-max">/100</div>
+          <div class="gauge-label" id="g-label">En attente…</div>
+        </div>
+      </div>
+      <div class="metas">
+        <div class="meta wide"><div class="k">Verdict</div><div class="v" id="m-verdict">—</div></div>
+        <div class="meta"><div class="k">Tokens</div><div class="v" id="m-tokens">—</div></div>
+        <div class="meta"><div class="k">Confiance</div><div class="v" id="m-conf">—</div></div>
+      </div>
+    </section>
+
+    <section class="card dims" aria-label="Détail par dimension">
+      <h2>Détail par dimension</h2>
+      <div id="dims"></div>
+      <div class="legend">
+        <span style="--c:var(--green)">moins de 20 : humain</span>
+        <span style="--c:var(--orange)">40 à 55 : incertain</span>
+        <span style="--c:var(--red)">plus de 70 : IA</span>
+      </div>
+    </section>
+
+    <section class="card warn" id="warn" hidden></section>
+
+    <section class="card json-card" id="json-card" hidden>
+      <div class="json-head">
+        <h2>Export JSON</h2>
+        <button class="btn" id="btn-copy-json" type="button">Copier</button>
+      </div>
+      <pre id="json"></pre>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<script src="./modules/app.js"></script>
+<script src="./modules/detector.js"></script>
+<script src="./modules/humaniser.js"></script>
+<script src="./modules/refile.js"></script>
+<script src="./modules/utile.js"></script>
+<script src="./modules/script.js"></script>
+</body>
+</html>
